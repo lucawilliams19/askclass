@@ -26,6 +26,6 @@ router.post('/login', loginUser)
 router.get('/me', protect, getUserData)
 
 // Router connection to API/users
-router.delete('/delteUser', deleteUser)
+router.delete('/deleteUser', deleteUser)
 
 module.exports = router
