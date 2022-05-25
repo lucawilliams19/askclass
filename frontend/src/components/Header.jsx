@@ -16,7 +16,7 @@ function Header() {
 	return (
 		<header className='header'>
 			<div className='logo'>
-				<Link to='/'>Email collection</Link>
+				<Link to='/'>Zoom Chat Analytics</Link>
 			</div>
 			<ul>
 				{user ? (
