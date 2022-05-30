@@ -41,7 +41,6 @@ console.log(items)
 				<h1>Welcome {user && user.name}</h1>
 				<p>Email Dashboard</p>
 			</section>
-			<EmailForm />
 
 			<section className='content'>
 				{items.length > 0 ? (
