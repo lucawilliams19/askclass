@@ -29,9 +29,9 @@ function Header() {
 							<Link to='/login'>
 								<FaSignInAlt /> Login
 							</Link>
-							<Link to='/register'>
+							{/* <Link to='/register'>
 								<FaUser /> Register
-							</Link>
+							</Link> */}
 						</li>
 					</>
 				)}

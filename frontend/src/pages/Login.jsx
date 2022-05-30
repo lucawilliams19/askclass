@@ -25,7 +25,7 @@ function Login() {
 		}
 
 		if (isSuccess || user) {
-			navigate('/')
+			navigate('/dashboard')
 		}
 
 		dispacth(reset())

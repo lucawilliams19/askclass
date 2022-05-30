@@ -34,7 +34,7 @@ function Dashboard() {
 	if (isLoading) {
 		return <Spinner />
 	}
-
+console.log(items)
 	return (
 		<>
 			<section className='heading'>

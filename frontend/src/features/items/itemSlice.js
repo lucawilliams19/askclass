@@ -13,11 +13,10 @@ const initialState = {
 // thunk API allows us to get any state from any function including 'auth'
 export const createItem = createAsyncThunk('items/create', async (itemData, thunkAPI) => {
 	try {
-		const token = thunkAPI.getState().auth.user.token
 		//@desc Attempt createItem
 		//@route--TO Method: auth/register File: ./authService TO Method: axios.post File:
 		//@access Public
-		return await itemService.createItem(itemData, token)
+		return await itemService.createItem(itemData)
 	} catch (error) {
 		const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
 		return thunkAPI.rejectWithValue(message)
@@ -27,9 +26,7 @@ export const createItem = createAsyncThunk('items/create', async (itemData, thun
 // Get user items
 export const getItems = createAsyncThunk('items/getAll', async (_, thunkAPI) => {
 	try {
-		const token = thunkAPI.getState().auth.user.token
-
-		return await itemService.getItems(token)
+		return await itemService.getItems()
 	} catch (error) {
 		const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
 		return thunkAPI.rejectWithValue(message)

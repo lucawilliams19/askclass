@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { createFile } from '../features/files/fileSlice'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import AnalyticsItem from '../components/Analytics/AnalyticsItem'
+import Analytics from './Analytics'
 
 function Upload() {
 	const navigate = useNavigate()
@@ -44,7 +46,7 @@ function Upload() {
 			const regex = /\r\n/g
 			fileValueAsArray = text.split(regex)
 			setFileData({
-				name: fileExt[0],
+				fileName: fileExt[0],
 				type: fileExt[1],
 				content: text,
 			})
@@ -56,23 +58,8 @@ function Upload() {
 
 			// Create two arrays one for data about chat and the other for the text of the chat log
 
-			console.log('Original array: ', fileValueAsArray)
-			console.log(
-				'This is all the text: ',
-				fileValueAsArray.map((x, i) => {
-					if (i % 2 === 0) {
-						entryData.push(x)
-					}
-					if (i % 2 !== 0 && i >= 0) {
-						entryChat.push(x)
-					}
-				})
-			)
-
 			let arrayOfEntries = entryData.map((e, i) => e + entryChat[i])
-			console.log('This is the entry data: ', entryData)
-			console.log('This is the entry chat: ', entryChat)
-			console.log('Array of Entries: ', arrayOfEntries)
+
 			let arrayOfTime = []
 
 			// Set up arrays for names, time stamps, number of entries per name
@@ -83,8 +70,6 @@ function Upload() {
 						arrayOfTime.push(chatData.split(':')[0] + chatData.split(':')[1] + chatData.split(':')[0].substring(0, 2))
 					}
 				})
-
-				console.log('Array of time: ', arrayOfTime)
 			}
 		}
 
@@ -93,40 +78,16 @@ function Upload() {
 		}
 	}
 
-	let student = {
-		name: {
-			type: String,
-		},
-		participationCount: {
-			type: Number,
-		},
-	}
-
 	let tempArray = []
-	let chatLog = fileData.content.split(/\r\n/g)
+	let chatLog
+	if (fileData.content) {
+		chatLog = fileData.content.split(/\r\n/g)
+	}
 	let participationCountForClass = 0
 	let studentName = ''
 	let studentNameList = []
 	let participationTimeStamps = []
 	let currentTimeStamp = ''
-
-	// Number of messages per user
-	// Name
-	// Number of messages for each name
-	// First message timestamp
-	// Last message time stamp
-
-	// Number of messages per minute
-	// Minute of time
-	// Number of messages
-	// Number of messages and uniquie users
-	// Number of messages
-	// Unique users
-	// Users who participated at least 3 times
-	// Messages by User by Timestamp
-	// User
-	// Message
-	//Timestamp
 
 	if (chatLog) {
 		//loop through the chat logs
@@ -164,14 +125,12 @@ function Upload() {
 	const onSubmit = (e) => {
 		e.preventDefault()
 
-		dispatch(createFile(fileData))
+		// dispatch(createFile(fileData))
 		// navigate( '/email' )
-		setFileData({
-			fileName: '',
-			fileType: '',
-			fileConent: '',
-		})
-		navigate('/Analytics')
+
+		if (!fileData.content) {
+			toast.error('Please upload a zoom chat log file')
+		} else navigate('/email', { state: fileData })
 	}
 
 	useEffect(() => {
@@ -186,7 +145,7 @@ function Upload() {
 			<section className='heading'>
 				<h1>Upload zoom chat log</h1>
 			</section>
-			<h2>Analytics sent right to you</h2>
+			<h2>Analytics made for you</h2>
 			<section className='form'>
 				<form onSubmit={onSubmit}>
 					<div className='form-group'>
@@ -210,29 +169,6 @@ function Upload() {
 					</div>
 				</form>
 			</section>
-			<section className='content'>
-				<h3>Students:</h3>
-
-				<table>
-					<tbody>
-						<tr>
-							<th key={1}>Student Name: </th>
-						</tr>
-						{studentNameList.map((x, key) => (
-							<tr key={key}>
-								<td>{x}</td>
-							</tr>
-						))}
-
-						<tr>
-							<th key={2}> Number of participations</th>
-						</tr>
-					</tbody>
-					<tfoot></tfoot>
-				</table>
-			</section>
-			<br />
-			{'Participation count: ' + participationCountForClass}
 		</>
 	)
 }

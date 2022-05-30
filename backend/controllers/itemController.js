@@ -7,7 +7,7 @@ const Item = require('../models/itemModel')
 //@access Private
 const getItems = asyncHandler(async (req, res) => {
 	//Get only the items that match the id of a user
-	const items = await Item.find({ user: req.user.id })
+	const items = await Item.find()
 
 	res.status(200).json(items)
 })
@@ -15,15 +15,19 @@ const getItems = asyncHandler(async (req, res) => {
 //@route POST /api/items
 //@access Private
 const setItem = asyncHandler(async (req, res) => {
-	if (!req.body.text) {
+	if (!req.body.email) {
 		res.status(400)
-		throw new Error('Please add a text field')
+		throw new Error('Please add a email')
+	}
+	if ( !req.body.name ) {
+		res.status( 400 )
+		throw new Error('Please add a name')
 	}
 	const item = await Item.create({
 		name: req.body.name,
 		email: req.body.email,
-		text: req.body.text,
-		user: req.user.id,
+		
+		
 	})
 
 	res.status(200).json(item)
@@ -73,11 +77,7 @@ const deleteItem = asyncHandler(async (req, res) => {
 		throw new Error()
 	}
 
-	//Make sure the logged in user mathes the goal user
-	if (item.user.toString() !== req.user.id) {
-		res.status(401)
-		throw new Error('User not authorized')
-	}
+	
 
 	await item.remove()
 
