@@ -26,10 +26,21 @@ function EmailForm() {
 	})
 	const { email, name } = itemData
 
-	const { user, isError, isSuccess, message } = useSelector((state) => state.item)
+	const { user, isError, isSuccess, message } = useSelector( ( state ) => state.item )
+
 
 	const onChange = (e) => {
 		e.preventDefault()
+
+setPassData((prevState) => ({
+	...prevState,
+	teacherName: e.target.value,
+	meetingTitle: meetingTitle,
+	passFileName: passFileName,
+	passFileType: fileType,
+	passFileContent: fileContent,
+	emailAddress: itemData.email,
+}))
 
 		let fieldName = e.target.name
 		switch (fieldName) {
@@ -64,24 +75,15 @@ function EmailForm() {
 		// }
 	}, [user, isError, isSuccess, message, navigate])
 
-	const setTheStuff = () => { 
-	setPassData((prevState) => ({
-		...prevState,
-		teacherName: name,
-		meetingTitle: meetingTitle,
-		passFileName: fileName,
-		passFileType: state.fileType,
-		passFileContent: state.fileContent,
-		emailAddress: itemData.email,
-	}))
-	}
+
+console.log(passData)
 
 	const onSubmit = (e) => {
 		e.preventDefault()
 
-		console.log(itemData.email)
+		
 
-	setTheStuff()
+		
 		
 		dispatch(createItem(itemData))
 		if (isError) {

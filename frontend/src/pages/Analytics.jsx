@@ -16,7 +16,7 @@ function Analytics(chatLog) {
 	const { state } = useLocation()
 
 	const { meetingTitle, content, teacherName, emailAddress } = state
-
+console.log(emailAddress)
 	const [entries, setEntries] = useState({
 		headers: [],
 		msgs: [],
@@ -711,9 +711,10 @@ function Analytics(chatLog) {
 		console.log(emailData)
 	}
 
-	const handleSend = async (e) => {
+	const handleSend = async ( e ) => {
+
 		e.preventDefault()
-		setCSV()
+	
 		setSent(true)
 
 		// console.log('email address', state.emailAddress)
@@ -743,18 +744,8 @@ function Analytics(chatLog) {
 			<section className='heading'>
 				<h1>Analytics</h1>
 			</section>
-			<section className='content'>
-				<h3> results for {meetingTitle}</h3>
-			</section>
-			<CSVLink
-				data={csvData.msgPerUser.data}
-				headers={csvData.msgPerUser.header}
-				filename={csvData.msgPerUser.fileName}
-				className='btn btn-block'
-			>
-				Download <br />
-				{fileName('msgPerUser')}
-			</CSVLink>
+		
+			
 
 			<button onClick={handleClick} className='btn btn-block'>
 				Upload a new document
