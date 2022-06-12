@@ -18,7 +18,6 @@ const getFiles = asyncHandler(async (req, res) => {
 const setFile = asyncHandler( async ( req, res ) => {
 	//
 		if (!req.body.name) {
-			res.status(400).json('file made it here')
 			throw new Error('Please add a name field')
 		}
 		const file = await File.create({

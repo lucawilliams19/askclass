@@ -15,9 +15,6 @@ const { errorHandler } = require('./middleware/errorMiddleware')
 // Import the databse connection url
 const connectDB = require('./config/db')
 
-// Use the .env file to set the port for server
-const port = process.env.PORT || 5000
-
 // Connect the server to the MongoDB through the url
 connectDB()
 
@@ -30,29 +27,42 @@ app.use(express.json())
 // Have the server use custome urlencoding rather than default
 app.use(express.urlencoded({ extended: false }))
 
-
-
 // Server connects to the internal items api and uses it to speak to front end
 app.use('/api/items', require('./routes/itemRoutes'))
 
 // Server connects to the internal items api and uses it to speak to front end
 app.use('/api/users', require('./routes/userRoutes'))
 
-
 // Server connects to the internal items api and uses it to speak to front end
 app.use('/api/files', require('./routes/fileRoutes'))
 
-if ( process.env.NODE_ENV === 'production' ) {
- app.use( express.static( path.join( __dirname, '../frontend/build' ) ) )
- 
- app.get( '*', ( req, res ) => {
-  res.sendFile( path.resolve( __dirname, '../', 'frontend', 'build', 'index.html'))})
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'))
+	})
 } else {
-  app.get('/', (req,res) => res.send('Please set to production'))
+	app.get('/', (req, res) => res.send('Please set to production'))
 }
 
 // Replace the standard error system for the server with a middlware error handler
 app.use(errorHandler)
+
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const nodemailer = require('nodemailer')
+
+app.use(bodyParser.urlencoded({ extended: true }))
+// app.use(bodyParser.json())
+
+app.use(cors())
+
+
+app.use('/api/send_email', require('./routes/emailRoutes'))
+
+// Use the .env file to set the port for server
+const port = process.env.PORT || 5000
 
 // Have the server listen to the port and console log if anything goes wrong
 app.listen(port, () => console.log(`Server started on port ${port}`))

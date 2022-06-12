@@ -1,0 +1,24 @@
+// const mongoose = require('mongoose')
+
+// const emailSchema = mongoose.Schema({
+// 	name: {
+// 		type: String,
+// 		required: true,
+// 	},
+// 	email: {
+// 		type: String,
+// 		required: true,
+// 	},
+//  subject: {
+//   type: String,
+//   required: true
+//  },
+//  message: {
+//   type: String,
+//   required: true
+//  },
+// 	file: {
+//   type: File,
+//   required: true
+// 	},
+// })
