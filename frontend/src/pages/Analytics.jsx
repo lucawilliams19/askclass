@@ -693,7 +693,13 @@ console.log(emailAddress)
 				content: jsonToCSV(csvData2),
 				contentType: 'csv',
 			},
-		})
+		} )
+		
+		setSent(true)
+
+		// console.log('email address', state.emailAddress)
+
+		dispatch(sendEmail(emailData))
 	}
 
 	const [sent, setSent] = useState(false)
@@ -715,11 +721,11 @@ console.log(emailAddress)
 
 		e.preventDefault()
 	
-		setSent(true)
+		// setSent(true)
 
-		// console.log('email address', state.emailAddress)
+		// // console.log('email address', state.emailAddress)
 
-		dispatch(sendEmail(emailData))
+		// dispatch(sendEmail(emailData))
 	}
 
 	useEffect(() => {
